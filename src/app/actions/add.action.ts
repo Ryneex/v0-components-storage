@@ -7,6 +7,8 @@ export default async function addNewComponent(id: string) {
     const AddedComponents = getAddedComponents();
     const componentPath = "./src/components/component/component.tsx";
     const componentPagePath = `./src/app/components/${id}/page.tsx`;
+    const layoutFilePath = "./src/components/layout.tsx";
+    const layoutPagePath = `./src/app/components/${id}/layout.tsx`;
     if (AddedComponents.some((e: any) => e.id === id)) return { success: false, message: "This component already exists" };
     try {
         execSync(`echo Component | npx v0 add ${id}`, { stdio: "inherit" });
@@ -14,6 +16,7 @@ export default async function addNewComponent(id: string) {
         const code = contentCleanUp(fileCode);
         await fs.createFile(componentPagePath);
         await fs.writeFile(componentPagePath, code);
+        await fs.copyFile(layoutFilePath, layoutPagePath);
         await fs.remove(componentPath);
         addNewComponentToData({ id, code }, AddedComponents);
         return { success: true, message: "Component added successfully" };

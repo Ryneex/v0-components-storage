@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React from "react";
-import addNewComponent from "./add.action";
+import addNewComponent from "../actions/add.action";
 import toast from "react-hot-toast";
 
 export default function AddNewForm() {
