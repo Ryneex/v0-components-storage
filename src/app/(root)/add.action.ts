@@ -17,8 +17,8 @@ export default async function addNewComponent(id: string) {
         await fs.remove(componentPath);
         addNewComponentToData({ id, code }, AddedComponents);
         return { success: true, message: "Component added successfully" };
-    } catch (error) {
-        return { success: false, message: "Something went wrong, could be invalid id" };
+    } catch (error: any) {
+        return { success: false, message: error.message };
     }
 }
 
