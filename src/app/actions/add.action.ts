@@ -13,7 +13,9 @@ export default async function addNewComponent(id: string) {
     try {
         try {
             execSync(`echo Component | npx v0 add ${id}`, { stdio: "inherit" });
-        } catch (error) {}
+        } catch (error) {
+            console.log(error)
+        }
         const fileCode = await fs.readFile(componentPath, "utf8");
         const code = contentCleanUp(fileCode);
         await fs.createFile(componentPagePath);
