@@ -8,13 +8,16 @@ import { TiArrowRight } from "react-icons/ti";
 import { FaRegCopy } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useRouter } from "next/navigation";
 
 export default function Card({ data }) {
+    const router = useRouter();
     async function handleRemove() {
         const promise = new Promise(async (resolve, reject) => {
             const res: any = await removeComponent(data.id);
             if (res.success) {
                 resolve(res);
+                router.refresh();
             } else {
                 reject(res);
             }

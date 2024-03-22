@@ -5,8 +5,10 @@ import { Input } from "@/components/ui/input";
 import React from "react";
 import addNewComponent from "../actions/add.action";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function AddNewForm() {
+    const router = useRouter()
     function handleSubmit(e) {
         e.preventDefault();
         const value: string = e.target[0].value.trim();
@@ -15,6 +17,7 @@ export default function AddNewForm() {
             const data: any = await addNewComponent(id);
             if (data.success) {
                 resolve(data);
+                router.refresh()
             } else {
                 reject(data);
             }

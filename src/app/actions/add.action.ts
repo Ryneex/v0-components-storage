@@ -11,7 +11,9 @@ export default async function addNewComponent(id: string) {
     const layoutPagePath = `./src/app/components/${id}/layout.tsx`;
     if (AddedComponents.some((e: any) => e.id === id)) return { success: false, message: "This component already exists" };
     try {
-        execSync(`echo Component | npx v0 add ${id}`, { stdio: "inherit" });
+        try {
+            execSync(`echo Component | npx v0 add ${id}`, { stdio: "inherit" });
+        } catch (error) {}
         const fileCode = await fs.readFile(componentPath, "utf8");
         const code = contentCleanUp(fileCode);
         await fs.createFile(componentPagePath);
@@ -21,7 +23,7 @@ export default async function addNewComponent(id: string) {
         addNewComponentToData({ id, code }, AddedComponents);
         return { success: true, message: "Component added successfully" };
     } catch (error: any) {
-        return { success: false, message: error.message };
+        return { success: false, message: "Something went wrong. please try again" };
     }
 }
 
@@ -43,6 +45,8 @@ const replaces = [
     { from: "export function Component()", to: "export default function page()" },
     { from: 'variant="primary"', to: 'variant="default"' },
     { from: "value=", to: "defaultValue=" },
+    { from: "block>", to: ">" },
+    { from: "/placeholder.svg", to: "	https://generated.vusercontent.net/placeholder.svg" },
 ];
 
 function contentCleanUp(code) {
@@ -50,5 +54,5 @@ function contentCleanUp(code) {
     replaces.forEach((e) => {
         newCode = newCode.replaceAll(e.from, e.to);
     });
-    return newCode;
+    return `"use client"\n${newCode}`;
 }
