@@ -4,8 +4,9 @@ import Card from "./Card";
 import { Toaster } from "react-hot-toast";
 import AddNewForm from "./AddNewForm";
 
-function parseJson(json: string) {
+function parseJson() {
     try {
+        const json = fs.readFileSync("./public/data.json", "utf8");
         const obj = JSON.parse(json);
         return obj;
     } catch (error) {
@@ -14,8 +15,7 @@ function parseJson(json: string) {
 }
 
 export default function page() {
-    const json = fs.readFileSync("./public/data.json", "utf8");
-    const data = parseJson(json);
+    const data = parseJson();
     return (
         <div>
             <Toaster />

@@ -23,11 +23,13 @@ export default async function addNewComponent(id: string) {
         addNewComponentToData({ id, code }, AddedComponents);
         return { success: true, message: "Component added successfully" };
     } catch (error: any) {
+        console.log(error)
         return { success: false, message: "Something went wrong. please try again" };
     }
 }
 
-function addNewComponentToData(data, AddedComponents) {
+async function addNewComponentToData(data, AddedComponents) {
+    await fs.createFile("./public/data.json")
     fs.writeFile("./public/data.json", JSON.stringify([data, ...AddedComponents]));
 }
 

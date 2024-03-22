@@ -6,8 +6,9 @@ export default async function removeComponent(id: string) {
         const path = `./src/app/components/${id}`;
         const addedComponents = getAddedComponents();
         const removedComponents = getRemovedComponents();
-        fs.writeFileSync("./public/data.json", JSON.stringify(addedComponents.filter((e: any) => e.id !== id)));
-        fs.writeFileSync("./public/removed.json", JSON.stringify([id, ...removedComponents]));
+        await fs.writeFile("./public/data.json", JSON.stringify(addedComponents.filter((e: any) => e.id !== id)));
+        await fs.createFile("./public/removed.json");
+        await fs.writeFile("./public/removed.json", JSON.stringify([id, ...removedComponents]));
         fs.remove(path);
         return { success: true, message: "Component removed successfully" };
     } catch (error: any) {
