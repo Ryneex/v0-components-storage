@@ -37,5 +37,6 @@ next-env.d.ts
 
 #custom
 /src/app/components
+/src/components/ui
 /public/data.json
 /public/removed.json
