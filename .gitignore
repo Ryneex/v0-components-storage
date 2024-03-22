@@ -36,4 +36,6 @@ yarn-error.log*
 next-env.d.ts
 
 #custom
-./src/app/components
+/src/app/components
+/public/data.json
+/public/removed.json
