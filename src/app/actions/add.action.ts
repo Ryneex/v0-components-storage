@@ -5,7 +5,7 @@ import fs from "fs-extra";
 
 export default async function addNewComponent(id: string) {
     const AddedComponents = getAddedComponents();
-    const componentPath = "./src/components/component/component.tsx";
+    const componentPath = getComponentPath();
     const componentPagePath = `./src/app/components/${id}/page.tsx`;
     const layoutFilePath = "./src/components/layout.tsx";
     const layoutPagePath = `./src/app/components/${id}/layout.tsx`;
@@ -14,7 +14,7 @@ export default async function addNewComponent(id: string) {
         try {
             execSync(`echo Component | npx v0 add ${id}`, { stdio: "inherit" });
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
         const fileCode = await fs.readFile(componentPath, "utf8");
         const code = contentCleanUp(fileCode);
@@ -25,13 +25,13 @@ export default async function addNewComponent(id: string) {
         addNewComponentToData({ id, code }, AddedComponents);
         return { success: true, message: "Component added successfully" };
     } catch (error: any) {
-        console.log(error)
+        console.log(error);
         return { success: false, message: "Something went wrong. please try again" };
     }
 }
 
 async function addNewComponentToData(data, AddedComponents) {
-    await fs.createFile("./public/data.json")
+    await fs.createFile("./public/data.json");
     fs.writeFile("./public/data.json", JSON.stringify([data, ...AddedComponents]));
 }
 
@@ -59,4 +59,11 @@ function contentCleanUp(code) {
         newCode = newCode.replaceAll(e.from, e.to);
     });
     return `"use client"\n${newCode}`;
+}
+
+function getComponentPath() {
+    if (process.platform === "darwin") {
+        return "./src/components/component.tsx";
+    }
+    return "./src/components/component/component.tsx";
 }
